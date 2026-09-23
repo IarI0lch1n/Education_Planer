@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'screens/login_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -15,11 +16,7 @@ class EduPlanApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'EduPlan',
       theme: AppTheme.light,
-      home: const Scaffold(
-        body: Center(
-          child: Text('EduPlan'),
-        ),
-      ),
+      home: const LoginScreen(),
     );
   }
 }
