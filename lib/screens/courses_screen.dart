@@ -30,27 +30,35 @@ class CoursesScreen extends StatelessWidget {
       drawer: EduPlanDrawer(
         selectedIndex: 1,
         onDestinationSelected: (index) {
-          Navigator.pop(context);
+            Navigator.pop(context);
 
-          if (index == 2) {
-            Navigator.pushReplacement(
+            if (index == 0) {
+                Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                builder: (_) => const AssignmentsScreen(),
+                    builder: (_) => const ScheduleScreen(),
                 ),
-            );
+                );
+            }
+
+            if (index == 2) {
+                Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => const AssignmentsScreen(),
+                ),
+                );
             }
 
             if (index == 3) {
-            Navigator.pushReplacement(
+                Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                builder: (_) => const ProfileScreen(),
+                    builder: (_) => const ProfileScreen(),
                 ),
-            );
+                );
             }
-
-        },
+            },
       ),
       appBar: AppBar(
         title: const Text('Courses'),
