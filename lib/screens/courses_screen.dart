@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../data/mock_data.dart';
 import '../widgets/course_card.dart';
 import '../widgets/edu_plan_drawer.dart';
+
 import 'schedule_screen.dart';
+import 'course_details_screen.dart';
 
 class CoursesScreen extends StatelessWidget {
   const CoursesScreen({super.key});
@@ -94,7 +96,17 @@ class CoursesScreen extends StatelessWidget {
               child: CourseCard(
                 course: course,
                 showWeekday: true,
-              ),
+                onTap: () {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => CourseDetailsScreen(
+                        course: course,
+                        ),
+                    ),
+                    );
+                },
+                ),
             ),
           ),
         ],

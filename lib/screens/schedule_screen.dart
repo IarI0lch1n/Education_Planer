@@ -5,6 +5,7 @@ import '../widgets/course_card.dart';
 import '../widgets/edu_plan_drawer.dart';
 
 import 'courses_screen.dart';
+import 'course_details_screen.dart';
 
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
@@ -99,7 +100,17 @@ class _DaySection extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 10),
               child: CourseCard(
                 course: course,
-              ),
+                onTap: () {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => CourseDetailsScreen(
+                        course: course,
+                        ),
+                    ),
+                    );
+                },
+                ),
             ),
           ),
         ],
