@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'schedule_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -88,7 +89,14 @@ class LoginScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 24),
                           FilledButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                                Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const ScheduleScreen(),
+                                ),
+                                );
+                            },
                             icon: const Icon(Icons.login),
                             label: const Text('Войти'),
                           ),
