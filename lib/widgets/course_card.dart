@@ -95,7 +95,7 @@ class CourseCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          'Аудитория ${course.room}',
+                          'Room ${course.room}',
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: colorScheme.onSurfaceVariant,
                           ),

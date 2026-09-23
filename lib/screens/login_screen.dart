@@ -43,7 +43,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Расписание и учебные задания',
+                    'Schedule and education tasks',
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: colorScheme.onSurfaceVariant,
                     ),
@@ -57,12 +57,12 @@ class LoginScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
-                            'Вход',
+                            'Log in',
                             style: theme.textTheme.titleLarge,
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Войдите в свою учётную запись',
+                            'Enter to your account',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: colorScheme.onSurfaceVariant,
                             ),
@@ -81,7 +81,7 @@ class LoginScreen extends StatelessWidget {
                           const TextField(
                             obscureText: true,
                             decoration: InputDecoration(
-                              labelText: 'Пароль',
+                              labelText: 'Password',
                               prefixIcon: Icon(
                                 Icons.lock_outline,
                               ),
@@ -98,13 +98,13 @@ class LoginScreen extends StatelessWidget {
                                 );
                             },
                             icon: const Icon(Icons.login),
-                            label: const Text('Войти'),
+                            label: const Text('Enter'),
                           ),
                           const SizedBox(height: 8),
                           TextButton(
                             onPressed: () {},
                             child: const Text(
-                              'Нет аккаунта? Зарегистрируйтесь',
+                              'Without account? Sign up',
                             ),
                           ),
                         ],

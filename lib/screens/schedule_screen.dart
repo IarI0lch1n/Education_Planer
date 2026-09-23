@@ -4,6 +4,8 @@ import '../data/mock_data.dart';
 import '../widgets/course_card.dart';
 import '../widgets/edu_plan_drawer.dart';
 
+import 'courses_screen.dart';
+
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
 
@@ -21,24 +23,33 @@ class ScheduleScreen extends StatelessWidget {
       drawer: EduPlanDrawer(
         selectedIndex: 0,
         onDestinationSelected: (index) {
-          Navigator.pop(context);
+        Navigator.pop(context);
+
+        if (index == 1) {
+            Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (_) => const CoursesScreen(),
+            ),
+            );
+        }
         },
       ),
       appBar: AppBar(
-        title: const Text('Расписание'),
+        title: const Text('Schedule'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           Text(
-            'Учебная неделя',
+            'Eduation week',
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 4),
           Text(
-            'TI-236 · текущая неделя',
+            'Student_Group · Current week',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),

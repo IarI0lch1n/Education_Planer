@@ -67,25 +67,25 @@ class EduPlanDrawer extends StatelessWidget {
             const SizedBox(height: 8),
             _DrawerItem(
               icon: Icons.calendar_month_outlined,
-              label: 'Расписание',
+              label: 'Schedule',
               selected: selectedIndex == 0,
               onTap: () => onDestinationSelected(0),
             ),
             _DrawerItem(
               icon: Icons.menu_book_outlined,
-              label: 'Курсы',
+              label: 'Courses',
               selected: selectedIndex == 1,
               onTap: () => onDestinationSelected(1),
             ),
             _DrawerItem(
               icon: Icons.assignment_outlined,
-              label: 'Задания',
+              label: 'Tasks',
               selected: selectedIndex == 2,
               onTap: () => onDestinationSelected(2),
             ),
             _DrawerItem(
               icon: Icons.person_outline,
-              label: 'Профиль',
+              label: 'Profile',
               selected: selectedIndex == 3,
               onTap: () => onDestinationSelected(3),
             ),
@@ -96,7 +96,7 @@ class EduPlanDrawer extends StatelessWidget {
             ),
             _DrawerItem(
               icon: Icons.logout,
-              label: 'Выход',
+              label: 'Exit',
               selected: false,
               onTap: () => onDestinationSelected(4),
             ),
