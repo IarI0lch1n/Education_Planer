@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import '../data/mock_data.dart';
 import '../widgets/assignment_card.dart';
 import '../widgets/edu_plan_drawer.dart';
+
 import 'courses_screen.dart';
 import 'schedule_screen.dart';
+import 'assignment_form_screen.dart';
 
 class AssignmentsScreen extends StatelessWidget {
   const AssignmentsScreen({super.key});
@@ -43,9 +45,16 @@ class AssignmentsScreen extends StatelessWidget {
         title: const Text('Assignments'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+            Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => const AssignmentFormScreen(),
+            ),
+            );
+        },
         child: const Icon(Icons.add),
-      ),
+        ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
