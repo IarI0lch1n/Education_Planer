@@ -6,6 +6,7 @@ import '../widgets/edu_plan_drawer.dart';
 
 import 'courses_screen.dart';
 import 'course_details_screen.dart';
+import 'assignments_screen.dart';
 
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
@@ -24,17 +25,26 @@ class ScheduleScreen extends StatelessWidget {
       drawer: EduPlanDrawer(
         selectedIndex: 0,
         onDestinationSelected: (index) {
-        Navigator.pop(context);
+            Navigator.pop(context);
 
-        if (index == 1) {
-            Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (_) => const CoursesScreen(),
-            ),
-            );
-        }
-        },
+            if (index == 1) {
+                Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => const CoursesScreen(),
+                ),
+                );
+            }
+
+            if (index == 2) {
+                Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => const AssignmentsScreen(),
+                ),
+                );
+            }
+            },
       ),
       appBar: AppBar(
         title: const Text('Schedule'),

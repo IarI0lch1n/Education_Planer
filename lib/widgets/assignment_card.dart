@@ -4,11 +4,13 @@ import '../data/mock_data.dart';
 
 class AssignmentCard extends StatelessWidget {
   final Assignment assignment;
+  final String? courseName;
   final VoidCallback? onTap;
 
   const AssignmentCard({
     super.key,
     required this.assignment,
+    this.courseName,
     this.onTap,
   });
 
@@ -56,6 +58,29 @@ class AssignmentCard extends StatelessWidget {
                   ),
                 ],
               ),
+
+            if (courseName != null) ...[
+                const SizedBox(height: 10),
+                Row(
+                    children: [
+                    Icon(
+                        Icons.menu_book_outlined,
+                        size: 18,
+                        color: colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                        child: Text(
+                        courseName!,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                        ),
+                        ),
+                    ),
+                    ],
+                ),
+                ],
+
               const SizedBox(height: 14),
               Row(
                 children: [

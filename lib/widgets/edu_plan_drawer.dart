@@ -79,7 +79,7 @@ class EduPlanDrawer extends StatelessWidget {
             ),
             _DrawerItem(
               icon: Icons.assignment_outlined,
-              label: 'Tasks',
+              label: 'Assigment ',
               selected: selectedIndex == 2,
               onTap: () => onDestinationSelected(2),
             ),
