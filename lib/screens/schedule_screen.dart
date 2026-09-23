@@ -7,6 +7,7 @@ import '../widgets/edu_plan_drawer.dart';
 import 'courses_screen.dart';
 import 'course_details_screen.dart';
 import 'assignments_screen.dart';
+import 'profile_screen.dart';
 
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
@@ -41,6 +42,15 @@ class ScheduleScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (_) => const AssignmentsScreen(),
+                ),
+                );
+            }
+
+            if (index == 3) {
+                Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => const ProfileScreen(),
                 ),
                 );
             }
