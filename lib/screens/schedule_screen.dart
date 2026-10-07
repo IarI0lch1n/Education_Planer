@@ -3,11 +3,6 @@ import 'package:go_router/go_router.dart';
 
 import '../data/mock_data.dart';
 import '../widgets/course_card.dart';
-import '../widgets/edu_plan_drawer.dart';
-
-import 'assignments_screen.dart';
-import 'courses_screen.dart';
-import 'profile_screen.dart';
 
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
@@ -23,39 +18,6 @@ class ScheduleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: EduPlanDrawer(
-        selectedIndex: 0,
-        onDestinationSelected: (index) {
-          Navigator.pop(context);
-
-          if (index == 1) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const CoursesScreen(),
-              ),
-            );
-          }
-
-          if (index == 2) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const AssignmentsScreen(),
-              ),
-            );
-          }
-
-          if (index == 3) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const ProfileScreen(),
-              ),
-            );
-          }
-        },
-      ),
       appBar: AppBar(
         title: const Text('Schedule'),
       ),
@@ -123,7 +85,7 @@ class _DaySection extends StatelessWidget {
               child: CourseCard(
                 course: course,
                 onTap: () {
-                  context.push('/courses/${course.id}');
+                  context.push('/schedule/course/${course.id}');
                 },
               ),
             ),

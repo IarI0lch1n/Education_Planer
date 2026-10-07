@@ -3,11 +3,6 @@ import 'package:go_router/go_router.dart';
 
 import '../data/mock_data.dart';
 import '../widgets/course_card.dart';
-import '../widgets/edu_plan_drawer.dart';
-
-import 'schedule_screen.dart';
-import 'assignments_screen.dart';
-import 'profile_screen.dart';
 
 class CoursesScreen extends StatelessWidget {
   const CoursesScreen({super.key});
@@ -27,39 +22,6 @@ class CoursesScreen extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      drawer: EduPlanDrawer(
-        selectedIndex: 1,
-        onDestinationSelected: (index) {
-            Navigator.pop(context);
-
-            if (index == 0) {
-                Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => const ScheduleScreen(),
-                ),
-                );
-            }
-
-            if (index == 2) {
-                Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => const AssignmentsScreen(),
-                ),
-                );
-            }
-
-            if (index == 3) {
-                Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => const ProfileScreen(),
-                ),
-                );
-            }
-            },
-      ),
       appBar: AppBar(
         title: const Text('Courses'),
       ),

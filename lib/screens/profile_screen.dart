@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../data/mock_data.dart';
-import '../widgets/edu_plan_drawer.dart';
-import 'assignments_screen.dart';
-import 'courses_screen.dart';
-import 'schedule_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -19,39 +15,6 @@ class ProfileScreen extends StatelessWidget {
         .length;
 
     return Scaffold(
-      drawer: EduPlanDrawer(
-        selectedIndex: 3,
-        onDestinationSelected: (index) {
-          Navigator.pop(context);
-
-          if (index == 0) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const ScheduleScreen(),
-              ),
-            );
-          }
-
-          if (index == 1) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const CoursesScreen(),
-              ),
-            );
-          }
-
-          if (index == 2) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const AssignmentsScreen(),
-              ),
-            );
-          }
-        },
-      ),
       appBar: AppBar(
         title: const Text('Profile'),
       ),
