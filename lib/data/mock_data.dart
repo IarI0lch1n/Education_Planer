@@ -62,8 +62,8 @@ const mockCourses = [
   Course(
     id: 4,
     name: 'TMPPP',
-    teacher: '3-3',
-    room: 'room 4',
+    teacher: 'Postaru A.',
+    room: '3-3',
     weekday: 'Tuesday',
     startTime: '13:15',
   ),
