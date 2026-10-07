@@ -1,9 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../data/mock_data.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
+
+  Future<void> _logout(BuildContext context) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        title: const Text('Log out?'),
+        content: const Text(
+          'Are you sure you want to log out of EduPlan?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(dialogCtx, false);
+            },
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(dialogCtx, true);
+            },
+            child: const Text('Log out'),
+          ),
+        ],
+      ),
+    );
+
+    if (ok == true && context.mounted) {
+      context.go('/login');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +42,9 @@ class ProfileScreen extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     final completedAssignments = mockAssignments
-        .where((assignment) => assignment.status == 'Completed')
+        .where(
+          (assignment) => assignment.status == 'Completed',
+        )
         .length;
 
     return Scaffold(
@@ -60,7 +93,9 @@ class ProfileScreen extends StatelessWidget {
                   'Faculty of Computers, Informatics and Microelectronics',
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onPrimary.withValues(alpha: 0.8),
+                    color: colorScheme.onPrimary.withValues(
+                      alpha: 0.8,
+                    ),
                   ),
                 ),
               ],
@@ -168,6 +203,18 @@ class ProfileScreen extends StatelessWidget {
             icon: const Icon(Icons.edit_outlined),
             label: const Text('Edit profile'),
           ),
+
+          const SizedBox(height: 10),
+
+          FilledButton.tonalIcon(
+            onPressed: () {
+              _logout(context);
+            },
+            icon: const Icon(Icons.logout),
+            label: const Text('Log out'),
+          ),
+
+          const SizedBox(height: 16),
         ],
       ),
     );
