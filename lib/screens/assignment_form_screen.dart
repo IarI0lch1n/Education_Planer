@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../data/mock_data.dart';
 
@@ -124,7 +125,7 @@ class AssignmentFormScreen extends StatelessWidget {
 
           OutlinedButton(
             onPressed: () {
-              Navigator.pop(context);
+              context.pop();
             },
             child: const Text('Cancel'),
           ),

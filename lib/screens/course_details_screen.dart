@@ -4,17 +4,21 @@ import '../data/mock_data.dart';
 import '../widgets/assignment_card.dart';
 
 class CourseDetailsScreen extends StatelessWidget {
-  final Course course;
+  final int id;
 
   const CourseDetailsScreen({
     super.key,
-    required this.course,
+    required this.id,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+
+    final course = mockCourses.firstWhere(
+      (course) => course.id == id,
+    );
 
     final assignments = mockAssignments
         .where((assignment) => assignment.courseId == course.id)
@@ -70,12 +74,14 @@ class CourseDetailsScreen extends StatelessWidget {
               ],
             ),
           ),
+
           const SizedBox(height: 24),
 
           Text(
             'Course information',
             style: theme.textTheme.titleLarge,
           ),
+
           const SizedBox(height: 12),
 
           Card(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../data/mock_data.dart';
 import '../widgets/course_card.dart';
 import '../widgets/edu_plan_drawer.dart';
 
 import 'schedule_screen.dart';
-import 'course_details_screen.dart';
 import 'assignments_screen.dart';
 import 'profile_screen.dart';
 
@@ -117,14 +117,7 @@ class CoursesScreen extends StatelessWidget {
                 course: course,
                 showWeekday: true,
                 onTap: () {
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => CourseDetailsScreen(
-                        course: course,
-                        ),
-                    ),
-                    );
+                  context.push('/courses/${course.id}');
                 },
                 ),
             ),

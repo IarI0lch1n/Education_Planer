@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'schedule_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -90,12 +90,7 @@ class LoginScreen extends StatelessWidget {
                           const SizedBox(height: 24),
                           FilledButton.icon(
                             onPressed: () {
-                                Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => const ScheduleScreen(),
-                                ),
-                                );
+                                context.go('/schedule');
                             },
                             icon: const Icon(Icons.login),
                             label: const Text('Enter'),

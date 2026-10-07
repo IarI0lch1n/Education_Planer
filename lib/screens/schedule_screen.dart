@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../data/mock_data.dart';
 import '../widgets/course_card.dart';
 import '../widgets/edu_plan_drawer.dart';
 
-import 'courses_screen.dart';
-import 'course_details_screen.dart';
 import 'assignments_screen.dart';
+import 'courses_screen.dart';
 import 'profile_screen.dart';
 
 class ScheduleScreen extends StatelessWidget {
@@ -26,35 +26,35 @@ class ScheduleScreen extends StatelessWidget {
       drawer: EduPlanDrawer(
         selectedIndex: 0,
         onDestinationSelected: (index) {
-            Navigator.pop(context);
+          Navigator.pop(context);
 
-            if (index == 1) {
-                Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => const CoursesScreen(),
-                ),
-                );
-            }
+          if (index == 1) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const CoursesScreen(),
+              ),
+            );
+          }
 
-            if (index == 2) {
-                Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => const AssignmentsScreen(),
-                ),
-                );
-            }
+          if (index == 2) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const AssignmentsScreen(),
+              ),
+            );
+          }
 
-            if (index == 3) {
-                Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => const ProfileScreen(),
-                ),
-                );
-            }
-            },
+          if (index == 3) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const ProfileScreen(),
+              ),
+            );
+          }
+        },
       ),
       appBar: AppBar(
         title: const Text('Schedule'),
@@ -63,7 +63,7 @@ class ScheduleScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: [
           Text(
-            'Eduation week',
+            'Education week',
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -76,6 +76,7 @@ class ScheduleScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
+
           ...weekdays.map(
             (weekday) => _DaySection(
               weekday: weekday,
@@ -115,22 +116,16 @@ class _DaySection extends StatelessWidget {
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 10),
+
           ...courses.map(
             (course) => Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: CourseCard(
                 course: course,
                 onTap: () {
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => CourseDetailsScreen(
-                        course: course,
-                        ),
-                    ),
-                    );
+                  context.push('/courses/${course.id}');
                 },
-                ),
+              ),
             ),
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../data/mock_data.dart';
 import '../widgets/assignment_card.dart';
@@ -6,7 +7,6 @@ import '../widgets/edu_plan_drawer.dart';
 
 import 'courses_screen.dart';
 import 'schedule_screen.dart';
-import 'assignment_form_screen.dart';
 import 'profile_screen.dart';
 
 class AssignmentsScreen extends StatelessWidget {
@@ -57,12 +57,7 @@ class AssignmentsScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-            Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => const AssignmentFormScreen(),
-            ),
-            );
+            context.push('/assignments/new');
         },
         child: const Icon(Icons.add),
         ),
