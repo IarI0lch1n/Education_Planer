@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-import '../data/mock_data.dart';
+import '../data/mock_edu_plan_repository.dart';
+import '../models/assignment_model.dart';
+import '../models/course_model.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool _simulateError = false;
 
   Future<void> _logout(BuildContext context) async {
     final ok = await showDialog<bool>(
@@ -39,9 +49,8 @@ class ProfileScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final completedAssignments = mockAssignments
-        .where((assignment) => assignment.status == 'Completed')
-        .length;
+    final courseModel = context.watch<CourseModel>();
+    final assignmentModel = context.watch<AssignmentModel>();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Profile')),
@@ -100,11 +109,11 @@ class ProfileScreen extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          Card(
+          const Card(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               child: Column(
-                children: const [
+                children: [
                   _ProfileInfoRow(
                     icon: Icons.badge_outlined,
                     label: 'Student',
@@ -144,7 +153,7 @@ class ProfileScreen extends StatelessWidget {
               Expanded(
                 child: _StatCard(
                   icon: Icons.menu_book_outlined,
-                  value: '${mockCourses.length}',
+                  value: '${courseModel.courses.length}',
                   label: 'Courses',
                 ),
               ),
@@ -152,7 +161,7 @@ class ProfileScreen extends StatelessWidget {
               Expanded(
                 child: _StatCard(
                   icon: Icons.assignment_outlined,
-                  value: '${mockAssignments.length}',
+                  value: '${assignmentModel.count}',
                   label: 'Assignments',
                 ),
               ),
@@ -166,7 +175,7 @@ class ProfileScreen extends StatelessWidget {
               Expanded(
                 child: _StatCard(
                   icon: Icons.task_alt_outlined,
-                  value: '$completedAssignments',
+                  value: '${assignmentModel.completedCount}',
                   label: 'Completed',
                 ),
               ),
@@ -174,11 +183,36 @@ class ProfileScreen extends StatelessWidget {
               Expanded(
                 child: _StatCard(
                   icon: Icons.pending_actions_outlined,
-                  value: '${mockAssignments.length - completedAssignments}',
+                  value:
+                      '${assignmentModel.count - assignmentModel.completedCount}',
                   label: 'Remaining',
                 ),
               ),
             ],
+          ),
+
+          const SizedBox(height: 28),
+
+          Text('Developer tools', style: theme.textTheme.titleLarge),
+
+          const SizedBox(height: 12),
+
+          Card(
+            child: SwitchListTile(
+              value: _simulateError,
+              title: const Text('Simulate network failure'),
+              subtitle: const Text(
+                'Makes repository requests return an error.',
+              ),
+              secondary: const Icon(Icons.cloud_off_outlined),
+              onChanged: (value) {
+                setState(() {
+                  _simulateError = value;
+                });
+
+                context.read<MockEduPlanRepository>().simulateError = value;
+              },
+            ),
           ),
 
           const SizedBox(height: 28),
