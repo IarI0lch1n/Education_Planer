@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../data/mock_data.dart';
+import '../models/assignment_model.dart';
+import '../models/course_model.dart';
 import '../widgets/assignment_card.dart';
+import '../widgets/error_view.dart';
 
 class CourseDetailsScreen extends StatelessWidget {
   final int id;
@@ -10,14 +13,53 @@ class CourseDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final courseModel = context.watch<CourseModel>();
+    final assignmentModel = context.watch<AssignmentModel>();
+
+    if (courseModel.isLoading || assignmentModel.isLoading) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Course details')),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (courseModel.error != null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Course details')),
+        body: ErrorView(
+          message: courseModel.error!,
+          onRetry: () {
+            context.read<CourseModel>().load();
+          },
+        ),
+      );
+    }
+
+    if (assignmentModel.error != null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Course details')),
+        body: ErrorView(
+          message: assignmentModel.error!,
+          onRetry: () {
+            context.read<AssignmentModel>().load();
+          },
+        ),
+      );
+    }
+
+    final course = courseModel.byId(id);
+
+    if (course == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Course details')),
+        body: const Center(child: Text('Course does not exist.')),
+      );
+    }
+
+    final assignments = assignmentModel.forCourse(course.id);
+
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-
-    final course = mockCourses.firstWhere((course) => course.id == id);
-
-    final assignments = mockAssignments
-        .where((assignment) => assignment.courseId == course.id)
-        .toList();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Course details')),
@@ -43,7 +85,9 @@ class CourseDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 const SizedBox(width: 16),
+
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,10 +180,12 @@ class CourseDetailsScreen extends StatelessWidget {
                       color: colorScheme.onSurfaceVariant,
                     ),
                     const SizedBox(width: 12),
-                    Text(
-                      'No assignments for this course.',
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
+                    Expanded(
+                      child: Text(
+                        'No assignments for this course.',
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ),
                   ],
