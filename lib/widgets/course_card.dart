@@ -41,10 +41,7 @@ class CourseCard extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Icon(
-                      Icons.schedule,
-                      color: colorScheme.onPrimaryContainer,
-                    ),
+                    Icon(Icons.schedule, color: colorScheme.onPrimaryContainer),
                     const SizedBox(height: 6),
                     Text(
                       course.startTime,
@@ -62,10 +59,7 @@ class CourseCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      course.name,
-                      style: theme.textTheme.titleMedium,
-                    ),
+                    Text(course.name, style: theme.textTheme.titleMedium),
                     const SizedBox(height: 8),
                     Row(
                       children: [

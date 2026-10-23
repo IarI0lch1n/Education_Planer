@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'data/mock_edu_plan_repository.dart';
+import 'models/assignment_model.dart';
+import 'models/course_model.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
 
 void main() {
-  runApp(const EduPlanApp());
+  final repository = MockEduPlanRepository();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<MockEduPlanRepository>.value(value: repository),
+        ChangeNotifierProvider(create: (_) => CourseModel(repository)..load()),
+        ChangeNotifierProvider(
+          create: (_) => AssignmentModel(repository)..load(),
+        ),
+      ],
+      child: const EduPlanApp(),
+    ),
+  );
 }
 
 class EduPlanApp extends StatelessWidget {
