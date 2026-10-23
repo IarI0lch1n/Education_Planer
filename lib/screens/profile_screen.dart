@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../data/mock_edu_plan_repository.dart';
 import '../models/assignment_model.dart';
 import '../models/course_model.dart';
+import '../widgets/error_view.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -44,6 +45,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  void _setNetworkFailure(bool value) {
+    setState(() {
+      _simulateError = value;
+    });
+
+    context.read<MockEduPlanRepository>().simulateError = value;
+
+    // When failure simulation is enabled,
+    // force a new request so the error state
+    // can be demonstrated immediately.
+    if (value) {
+      context.read<CourseModel>().load();
+      context.read<AssignmentModel>().load();
+    }
+  }
+
+  void _retryData() {
+    context.read<CourseModel>().load();
+    context.read<AssignmentModel>().load();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -76,7 +98,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 16),
+
                 Text(
                   'Iolchin I.',
                   style: theme.textTheme.headlineSmall?.copyWith(
@@ -84,14 +108,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
                 const SizedBox(height: 6),
+
                 Text(
                   'TI-236',
                   style: theme.textTheme.titleMedium?.copyWith(
                     color: colorScheme.onPrimary,
                   ),
                 ),
+
                 const SizedBox(height: 4),
+
                 Text(
                   'Faculty of Computers, Informatics and Microelectronics',
                   textAlign: TextAlign.center,
@@ -148,48 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
           const SizedBox(height: 12),
 
-          Row(
-            children: [
-              Expanded(
-                child: _StatCard(
-                  icon: Icons.menu_book_outlined,
-                  value: '${courseModel.courses.length}',
-                  label: 'Courses',
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _StatCard(
-                  icon: Icons.assignment_outlined,
-                  value: '${assignmentModel.count}',
-                  label: 'Assignments',
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 10),
-
-          Row(
-            children: [
-              Expanded(
-                child: _StatCard(
-                  icon: Icons.task_alt_outlined,
-                  value: '${assignmentModel.completedCount}',
-                  label: 'Completed',
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _StatCard(
-                  icon: Icons.pending_actions_outlined,
-                  value:
-                      '${assignmentModel.count - assignmentModel.completedCount}',
-                  label: 'Remaining',
-                ),
-              ),
-            ],
-          ),
+          _buildStudyOverview(courseModel, assignmentModel),
 
           const SizedBox(height: 28),
 
@@ -205,13 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 'Makes repository requests return an error.',
               ),
               secondary: const Icon(Icons.cloud_off_outlined),
-              onChanged: (value) {
-                setState(() {
-                  _simulateError = value;
-                });
-
-                context.read<MockEduPlanRepository>().simulateError = value;
-              },
+              onChanged: _setNetworkFailure,
             ),
           ),
 
@@ -236,6 +217,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(height: 16),
         ],
       ),
+    );
+  }
+
+  Widget _buildStudyOverview(
+    CourseModel courseModel,
+    AssignmentModel assignmentModel,
+  ) {
+    if (courseModel.isLoading || assignmentModel.isLoading) {
+      return const SizedBox(
+        height: 180,
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    final error = courseModel.error ?? assignmentModel.error;
+
+    if (error != null) {
+      return SizedBox(
+        height: 230,
+        child: ErrorView(message: error, onRetry: _retryData),
+      );
+    }
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _StatCard(
+                icon: Icons.menu_book_outlined,
+                value: '${courseModel.courses.length}',
+                label: 'Courses',
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _StatCard(
+                icon: Icons.assignment_outlined,
+                value: '${assignmentModel.count}',
+                label: 'Assignments',
+              ),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 10),
+
+        Row(
+          children: [
+            Expanded(
+              child: _StatCard(
+                icon: Icons.task_alt_outlined,
+                value: '${assignmentModel.completedCount}',
+                label: 'Completed',
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _StatCard(
+                icon: Icons.pending_actions_outlined,
+                value:
+                    '${assignmentModel.count - assignmentModel.completedCount}',
+                label: 'Remaining',
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -267,7 +316,9 @@ class _ProfileInfoRow extends StatelessWidget {
           ),
           child: Icon(icon, color: colorScheme.onSecondaryContainer),
         ),
+
         const SizedBox(width: 12),
+
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,7 +329,9 @@ class _ProfileInfoRow extends StatelessWidget {
                   color: colorScheme.onSurfaceVariant,
                 ),
               ),
+
               const SizedBox(height: 2),
+
               Text(
                 value,
                 style: theme.textTheme.bodyLarge?.copyWith(
@@ -316,14 +369,18 @@ class _StatCard extends StatelessWidget {
         child: Column(
           children: [
             Icon(icon, size: 30, color: colorScheme.primary),
+
             const SizedBox(height: 8),
+
             Text(
               value,
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
+
             const SizedBox(height: 2),
+
             Text(
               label,
               textAlign: TextAlign.center,
