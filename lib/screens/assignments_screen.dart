@@ -13,15 +13,13 @@ class AssignmentsScreen extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Assignments'),
-      ),
+      appBar: AppBar(title: const Text('Assignments')),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-            context.push('/assignments/new');
+          context.push('/assignments/new');
         },
         child: const Icon(Icons.add),
-        ),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -40,10 +38,7 @@ class AssignmentsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-          Text(
-            'Status',
-            style: theme.textTheme.titleSmall,
-          ),
+          Text('Status', style: theme.textTheme.titleSmall),
           const SizedBox(height: 8),
 
           SingleChildScrollView(
@@ -79,10 +74,7 @@ class AssignmentsScreen extends StatelessWidget {
 
           const SizedBox(height: 18),
 
-          Text(
-            'Deadline',
-            style: theme.textTheme.titleSmall,
-          ),
+          Text('Deadline', style: theme.textTheme.titleSmall),
           const SizedBox(height: 8),
 
           SingleChildScrollView(
@@ -112,21 +104,19 @@ class AssignmentsScreen extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          ...mockAssignments.map(
-            (assignment) {
-              final course = mockCourses.firstWhere(
-                (course) => course.id == assignment.courseId,
-              );
+          ...mockAssignments.map((assignment) {
+            final course = mockCourses.firstWhere(
+              (course) => course.id == assignment.courseId,
+            );
 
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: AssignmentCard(
-                  assignment: assignment,
-                  courseName: course.name,
-                ),
-              );
-            },
-          ),
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: AssignmentCard(
+                assignment: assignment,
+                courseName: course.name,
+              ),
+            );
+          }),
         ],
       ),
     );

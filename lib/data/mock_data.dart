@@ -1,38 +1,5 @@
-class Course {
-  final int id;
-  final String name;
-  final String teacher;
-  final String room;
-  final String weekday;
-  final String startTime;
-
-  const Course({
-    required this.id,
-    required this.name,
-    required this.teacher,
-    required this.room,
-    required this.weekday,
-    required this.startTime,
-  });
-}
-
-class Assignment {
-  final int id;
-  final int courseId;
-  final String title;
-  final String deadline;
-  final String status;
-  final String priority;
-
-  const Assignment({
-    required this.id,
-    required this.courseId,
-    required this.title,
-    required this.deadline,
-    required this.status,
-    required this.priority,
-  });
-}
+import '../domain/assignment.dart';
+import '../domain/course.dart';
 
 const mockCourses = [
   Course(

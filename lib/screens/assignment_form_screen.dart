@@ -7,12 +7,10 @@ class AssignmentFormScreen extends StatefulWidget {
   const AssignmentFormScreen({super.key});
 
   @override
-  State<AssignmentFormScreen> createState() =>
-      _AssignmentFormScreenState();
+  State<AssignmentFormScreen> createState() => _AssignmentFormScreenState();
 }
 
-class _AssignmentFormScreenState
-    extends State<AssignmentFormScreen> {
+class _AssignmentFormScreenState extends State<AssignmentFormScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _titleController = TextEditingController();
@@ -35,21 +33,13 @@ class _AssignmentFormScreenState
   Future<void> _selectDeadline() async {
     final now = DateTime.now();
 
-    final firstAllowedDate = DateTime(
-      now.year,
-      now.month,
-      now.day + 1,
-    );
+    final firstAllowedDate = DateTime(now.year, now.month, now.day + 1);
 
     final selectedDate = await showDatePicker(
       context: context,
       initialDate: firstAllowedDate,
       firstDate: firstAllowedDate,
-      lastDate: DateTime(
-        now.year + 3,
-        now.month,
-        now.day,
-      ),
+      lastDate: DateTime(now.year + 3, now.month, now.day),
     );
 
     if (selectedDate == null) {
@@ -88,9 +78,7 @@ class _AssignmentFormScreenState
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('New assignment'),
-      ),
+      appBar: AppBar(title: const Text('New assignment')),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -118,9 +106,7 @@ class _AssignmentFormScreenState
               decoration: const InputDecoration(
                 labelText: 'Title',
                 hintText: 'Assignment title',
-                prefixIcon: Icon(
-                  Icons.assignment_outlined,
-                ),
+                prefixIcon: Icon(Icons.assignment_outlined),
               ),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
@@ -137,9 +123,7 @@ class _AssignmentFormScreenState
               initialValue: _courseId,
               decoration: const InputDecoration(
                 labelText: 'Course',
-                prefixIcon: Icon(
-                  Icons.menu_book_outlined,
-                ),
+                prefixIcon: Icon(Icons.menu_book_outlined),
               ),
               items: mockCourses
                   .map(
@@ -172,12 +156,8 @@ class _AssignmentFormScreenState
               decoration: const InputDecoration(
                 labelText: 'Deadline',
                 hintText: 'Select deadline',
-                prefixIcon: Icon(
-                  Icons.calendar_today_outlined,
-                ),
-                suffixIcon: Icon(
-                  Icons.arrow_drop_down,
-                ),
+                prefixIcon: Icon(Icons.calendar_today_outlined),
+                suffixIcon: Icon(Icons.arrow_drop_down),
               ),
               validator: (value) {
                 if (_deadline == null) {
@@ -186,11 +166,7 @@ class _AssignmentFormScreenState
 
                 final now = DateTime.now();
 
-                final today = DateTime(
-                  now.year,
-                  now.month,
-                  now.day,
-                );
+                final today = DateTime(now.year, now.month, now.day);
 
                 if (!_deadline!.isAfter(today)) {
                   return 'Deadline must be in the future';
@@ -206,23 +182,12 @@ class _AssignmentFormScreenState
               initialValue: _priority,
               decoration: const InputDecoration(
                 labelText: 'Priority',
-                prefixIcon: Icon(
-                  Icons.flag_outlined,
-                ),
+                prefixIcon: Icon(Icons.flag_outlined),
               ),
               items: const [
-                DropdownMenuItem(
-                  value: 'Low',
-                  child: Text('Low'),
-                ),
-                DropdownMenuItem(
-                  value: 'Medium',
-                  child: Text('Medium'),
-                ),
-                DropdownMenuItem(
-                  value: 'High',
-                  child: Text('High'),
-                ),
+                DropdownMenuItem(value: 'Low', child: Text('Low')),
+                DropdownMenuItem(value: 'Medium', child: Text('Medium')),
+                DropdownMenuItem(value: 'High', child: Text('High')),
               ],
               onChanged: (value) {
                 setState(() {
@@ -244,23 +209,15 @@ class _AssignmentFormScreenState
               initialValue: _status,
               decoration: const InputDecoration(
                 labelText: 'Status',
-                prefixIcon: Icon(
-                  Icons.task_alt_outlined,
-                ),
+                prefixIcon: Icon(Icons.task_alt_outlined),
               ),
               items: const [
-                DropdownMenuItem(
-                  value: 'New',
-                  child: Text('New'),
-                ),
+                DropdownMenuItem(value: 'New', child: Text('New')),
                 DropdownMenuItem(
                   value: 'In progress',
                   child: Text('In progress'),
                 ),
-                DropdownMenuItem(
-                  value: 'Completed',
-                  child: Text('Completed'),
-                ),
+                DropdownMenuItem(value: 'Completed', child: Text('Completed')),
               ],
               onChanged: (value) {
                 if (value == null) {
@@ -277,12 +234,8 @@ class _AssignmentFormScreenState
 
             FilledButton.icon(
               onPressed: _save,
-              icon: const Icon(
-                Icons.save_outlined,
-              ),
-              label: const Text(
-                'Save assignment',
-              ),
+              icon: const Icon(Icons.save_outlined),
+              label: const Text('Save assignment'),
             ),
 
             const SizedBox(height: 10),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/mock_data.dart';
+import '../domain/course.dart';
 
 class CourseCard extends StatelessWidget {
   final Course course;

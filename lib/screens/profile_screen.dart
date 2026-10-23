@@ -11,9 +11,7 @@ class ProfileScreen extends StatelessWidget {
       context: context,
       builder: (dialogCtx) => AlertDialog(
         title: const Text('Log out?'),
-        content: const Text(
-          'Are you sure you want to log out of EduPlan?',
-        ),
+        content: const Text('Are you sure you want to log out of EduPlan?'),
         actions: [
           TextButton(
             onPressed: () {
@@ -42,15 +40,11 @@ class ProfileScreen extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     final completedAssignments = mockAssignments
-        .where(
-          (assignment) => assignment.status == 'Completed',
-        )
+        .where((assignment) => assignment.status == 'Completed')
         .length;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
+      appBar: AppBar(title: const Text('Profile')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -93,9 +87,7 @@ class ProfileScreen extends StatelessWidget {
                   'Faculty of Computers, Informatics and Microelectronics',
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onPrimary.withValues(
-                      alpha: 0.8,
-                    ),
+                    color: colorScheme.onPrimary.withValues(alpha: 0.8),
                   ),
                 ),
               ],
@@ -104,10 +96,7 @@ class ProfileScreen extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          Text(
-            'Student information',
-            style: theme.textTheme.titleLarge,
-          ),
+          Text('Student information', style: theme.textTheme.titleLarge),
 
           const SizedBox(height: 12),
 
@@ -146,10 +135,7 @@ class ProfileScreen extends StatelessWidget {
 
           const SizedBox(height: 28),
 
-          Text(
-            'Study overview',
-            style: theme.textTheme.titleLarge,
-          ),
+          Text('Study overview', style: theme.textTheme.titleLarge),
 
           const SizedBox(height: 12),
 
@@ -188,8 +174,7 @@ class ProfileScreen extends StatelessWidget {
               Expanded(
                 child: _StatCard(
                   icon: Icons.pending_actions_outlined,
-                  value:
-                      '${mockAssignments.length - completedAssignments}',
+                  value: '${mockAssignments.length - completedAssignments}',
                   label: 'Remaining',
                 ),
               ),
@@ -246,10 +231,7 @@ class _ProfileInfoRow extends StatelessWidget {
             color: colorScheme.secondaryContainer,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(
-            icon,
-            color: colorScheme.onSecondaryContainer,
-          ),
+          child: Icon(icon, color: colorScheme.onSecondaryContainer),
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -296,17 +278,10 @@ class _StatCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 18,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 18),
         child: Column(
           children: [
-            Icon(
-              icon,
-              size: 30,
-              color: colorScheme.primary,
-            ),
+            Icon(icon, size: 30, color: colorScheme.primary),
             const SizedBox(height: 8),
             Text(
               value,

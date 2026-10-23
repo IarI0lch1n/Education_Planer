@@ -18,16 +18,11 @@ final _profileNavigatorKey = GlobalKey<NavigatorState>();
 final router = GoRouter(
   initialLocation: '/login',
   routes: [
-    GoRoute(
-      path: '/login',
-      builder: (context, state) => const LoginScreen(),
-    ),
+    GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
 
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
-        return AppShell(
-          navigationShell: navigationShell,
-        );
+        return AppShell(navigationShell: navigationShell);
       },
       branches: [
         // Schedule
@@ -41,13 +36,9 @@ final router = GoRouter(
                 GoRoute(
                   path: 'course/:id',
                   builder: (context, state) {
-                    final id = int.parse(
-                      state.pathParameters['id']!,
-                    );
+                    final id = int.parse(state.pathParameters['id']!);
 
-                    return CourseDetailsScreen(
-                      id: id,
-                    );
+                    return CourseDetailsScreen(id: id);
                   },
                 ),
               ],
@@ -66,13 +57,9 @@ final router = GoRouter(
                 GoRoute(
                   path: ':id',
                   builder: (context, state) {
-                    final id = int.parse(
-                      state.pathParameters['id']!,
-                    );
+                    final id = int.parse(state.pathParameters['id']!);
 
-                    return CourseDetailsScreen(
-                      id: id,
-                    );
+                    return CourseDetailsScreen(id: id);
                   },
                 ),
               ],
@@ -86,13 +73,11 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/assignments',
-              builder: (context, state) =>
-                  const AssignmentsScreen(),
+              builder: (context, state) => const AssignmentsScreen(),
               routes: [
                 GoRoute(
                   path: 'new',
-                  builder: (context, state) =>
-                      const AssignmentFormScreen(),
+                  builder: (context, state) => const AssignmentFormScreen(),
                 ),
               ],
             ),
@@ -105,8 +90,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/profile',
-              builder: (context, state) =>
-                  const ProfileScreen(),
+              builder: (context, state) => const ProfileScreen(),
             ),
           ],
         ),

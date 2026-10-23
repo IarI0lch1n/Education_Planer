@@ -6,28 +6,21 @@ import '../widgets/assignment_card.dart';
 class CourseDetailsScreen extends StatelessWidget {
   final int id;
 
-  const CourseDetailsScreen({
-    super.key,
-    required this.id,
-  });
+  const CourseDetailsScreen({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final course = mockCourses.firstWhere(
-      (course) => course.id == id,
-    );
+    final course = mockCourses.firstWhere((course) => course.id == id);
 
     final assignments = mockAssignments
         .where((assignment) => assignment.courseId == course.id)
         .toList();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Course details'),
-      ),
+      appBar: AppBar(title: const Text('Course details')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -77,10 +70,7 @@ class CourseDetailsScreen extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          Text(
-            'Course information',
-            style: theme.textTheme.titleLarge,
-          ),
+          Text('Course information', style: theme.textTheme.titleLarge),
 
           const SizedBox(height: 12),
 
@@ -122,10 +112,7 @@ class CourseDetailsScreen extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Text(
-                  'Assignments',
-                  style: theme.textTheme.titleLarge,
-                ),
+                child: Text('Assignments', style: theme.textTheme.titleLarge),
               ),
               Text(
                 '${assignments.length}',
@@ -163,9 +150,7 @@ class CourseDetailsScreen extends StatelessWidget {
             ...assignments.map(
               (assignment) => Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: AssignmentCard(
-                  assignment: assignment,
-                ),
+                child: AssignmentCard(assignment: assignment),
               ),
             ),
         ],
@@ -199,10 +184,7 @@ class _InfoRow extends StatelessWidget {
             color: colorScheme.secondaryContainer,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(
-            icon,
-            color: colorScheme.onSecondaryContainer,
-          ),
+          child: Icon(icon, color: colorScheme.onSecondaryContainer),
         ),
         const SizedBox(width: 12),
         Expanded(

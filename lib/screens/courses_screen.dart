@@ -22,9 +22,7 @@ class CoursesScreen extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Courses'),
-      ),
+      appBar: AppBar(title: const Text('Courses')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -81,7 +79,7 @@ class CoursesScreen extends StatelessWidget {
                 onTap: () {
                   context.push('/courses/${course.id}');
                 },
-                ),
+              ),
             ),
           ),
         ],

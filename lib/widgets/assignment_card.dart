@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/mock_data.dart';
+import '../domain/assignment.dart';
 
 class AssignmentCard extends StatelessWidget {
   final Assignment assignment;
@@ -59,27 +59,27 @@ class AssignmentCard extends StatelessWidget {
                 ],
               ),
 
-            if (courseName != null) ...[
+              if (courseName != null) ...[
                 const SizedBox(height: 10),
                 Row(
-                    children: [
+                  children: [
                     Icon(
-                        Icons.menu_book_outlined,
-                        size: 18,
-                        color: colorScheme.onSurfaceVariant,
+                      Icons.menu_book_outlined,
+                      size: 18,
+                      color: colorScheme.onSurfaceVariant,
                     ),
                     const SizedBox(width: 6),
                     Expanded(
-                        child: Text(
+                      child: Text(
                         courseName!,
                         style: theme.textTheme.bodyMedium?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
+                          color: colorScheme.onSurfaceVariant,
                         ),
-                        ),
+                      ),
                     ),
-                    ],
+                  ],
                 ),
-                ],
+              ],
 
               const SizedBox(height: 14),
               Row(

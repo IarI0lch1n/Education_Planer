@@ -41,9 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 420,
-              ),
+              constraints: const BoxConstraints(maxWidth: 420),
               child: Column(
                 children: [
                   Container(
@@ -90,10 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Text(
-                              'Log in',
-                              style: theme.textTheme.titleLarge,
-                            ),
+                            Text('Log in', style: theme.textTheme.titleLarge),
 
                             const SizedBox(height: 8),
 
@@ -112,9 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               textInputAction: TextInputAction.next,
                               decoration: const InputDecoration(
                                 labelText: 'E-mail',
-                                prefixIcon: Icon(
-                                  Icons.person_outline,
-                                ),
+                                prefixIcon: Icon(Icons.person_outline),
                               ),
                               validator: (value) {
                                 final email = value?.trim() ?? '';
@@ -140,9 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onFieldSubmitted: (_) => _login(),
                               decoration: const InputDecoration(
                                 labelText: 'Password',
-                                prefixIcon: Icon(
-                                  Icons.lock_outline,
-                                ),
+                                prefixIcon: Icon(Icons.lock_outline),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -169,9 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             TextButton(
                               onPressed: () {},
-                              child: const Text(
-                                'Without account? Sign up',
-                              ),
+                              child: const Text('Without account? Sign up'),
                             ),
                           ],
                         ),

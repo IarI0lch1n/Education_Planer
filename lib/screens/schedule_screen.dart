@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../data/mock_data.dart';
+import '../domain/course.dart';
 import '../widgets/course_card.dart';
 
 class ScheduleScreen extends StatelessWidget {
@@ -18,17 +19,14 @@ class ScheduleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Schedule'),
-      ),
+      appBar: AppBar(title: const Text('Schedule')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           Text(
             'Education week',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.headlineSmall
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
           Text(
@@ -57,10 +55,7 @@ class _DaySection extends StatelessWidget {
   final String weekday;
   final List<Course> courses;
 
-  const _DaySection({
-    required this.weekday,
-    required this.courses,
-  });
+  const _DaySection({required this.weekday, required this.courses});
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +68,7 @@ class _DaySection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            weekday,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          Text(weekday, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 10),
 
           ...courses.map(
