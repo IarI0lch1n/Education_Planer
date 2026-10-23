@@ -10,9 +10,60 @@ import '../widgets/error_view.dart';
 class AssignmentsScreen extends StatelessWidget {
   const AssignmentsScreen({super.key});
 
+  Future<void> _deleteAssignment(
+    BuildContext context,
+    int id,
+    String title,
+  ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Delete assignment?'),
+          content: Text('Are you sure you want to delete "$title"?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext, false);
+              },
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(dialogContext, true);
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed != true || !context.mounted) {
+      return;
+    }
+
+    final error = await context.read<AssignmentModel>().remove(id);
+
+    if (!context.mounted) {
+      return;
+    }
+
+    if (error != null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error)));
+
+      return;
+    }
+
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Assignment "$title" deleted.')));
+  }
+
   @override
   Widget build(BuildContext context) {
     final assignmentModel = context.watch<AssignmentModel>();
+
     final courseModel = context.watch<CourseModel>();
 
     return Scaffold(
@@ -66,6 +117,7 @@ class AssignmentsScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+
         const SizedBox(height: 4),
 
         Text(
@@ -153,6 +205,9 @@ class AssignmentsScreen extends StatelessWidget {
             child: AssignmentCard(
               assignment: assignment,
               courseName: course?.name ?? 'Unknown course',
+              onDelete: () {
+                _deleteAssignment(context, assignment.id, assignment.title);
+              },
             ),
           );
         }),

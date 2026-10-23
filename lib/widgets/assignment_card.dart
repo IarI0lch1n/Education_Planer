@@ -6,12 +6,14 @@ class AssignmentCard extends StatelessWidget {
   final Assignment assignment;
   final String? courseName;
   final VoidCallback? onTap;
+  final VoidCallback? onDelete;
 
   const AssignmentCard({
     super.key,
     required this.assignment,
     this.courseName,
     this.onTap,
+    this.onDelete,
   });
 
   @override
@@ -56,6 +58,14 @@ class AssignmentCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  if (onDelete != null) ...[
+                    const SizedBox(width: 4),
+                    IconButton(
+                      tooltip: 'Delete assignment',
+                      onPressed: onDelete,
+                      icon: const Icon(Icons.delete_outline),
+                    ),
+                  ],
                 ],
               ),
 
@@ -82,6 +92,7 @@ class AssignmentCard extends StatelessWidget {
               ],
 
               const SizedBox(height: 14),
+
               Row(
                 children: [
                   Icon(
@@ -98,7 +109,9 @@ class AssignmentCard extends StatelessWidget {
                   ),
                 ],
               ),
+
               const SizedBox(height: 6),
+
               Row(
                 children: [
                   Icon(
