@@ -125,11 +125,11 @@ class _AssignmentFormScreenState extends State<AssignmentFormScreen> {
     ColorScheme colorScheme,
     CourseModel courseModel,
   ) {
-    if (courseModel.isLoading) {
+    if (courseModel.isLoading && courseModel.courses.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (courseModel.error != null) {
+    if (courseModel.error != null && courseModel.courses.isEmpty) {
       return ErrorView(
         message: courseModel.error!,
         onRetry: () {
