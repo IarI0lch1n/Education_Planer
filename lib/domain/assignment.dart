@@ -15,6 +15,27 @@ class Assignment {
     required this.priority,
   });
 
+  factory Assignment.fromJson(Map<String, dynamic> json) {
+    return Assignment(
+      id: json['id'] as int,
+      courseId: json['courseId'] as int,
+      title: json['title'] as String,
+      deadline: json['deadline'] as String,
+      status: json['status'] as String,
+      priority: json['priority'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'courseId': courseId,
+      'title': title,
+      'deadline': deadline,
+      'status': status,
+      'priority': priority,
+    };
+  }
+
   Assignment copyWith({
     int? id,
     int? courseId,
