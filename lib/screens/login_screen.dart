@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../models/assignment_model.dart';
+import '../models/course_model.dart';
 import '../data/auth_api.dart';
 import '../data/result.dart';
 
@@ -73,6 +75,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
     switch (result) {
       case Ok():
+        await Future.wait([
+          context.read<CourseModel>().load(),
+          context.read<AssignmentModel>().load(),
+        ]);
+
+        if (!mounted) {
+          return;
+        }
+
         context.go('/schedule');
 
       case Err(:final message):

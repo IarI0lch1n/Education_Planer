@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../data/auth_api.dart';
 
-import '../data/mock_edu_plan_repository.dart';
 import '../models/assignment_model.dart';
 import '../models/course_model.dart';
 import '../widgets/error_view.dart';
@@ -17,8 +16,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool _simulateError = false;
-
   Future<void> _logout(BuildContext context) async {
     final ok = await showDialog<bool>(
       context: context,
@@ -53,22 +50,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     context.go('/login');
-  }
-
-  void _setNetworkFailure(bool value) {
-    setState(() {
-      _simulateError = value;
-    });
-
-    context.read<MockEduPlanRepository>().simulateError = value;
-
-    // When failure simulation is enabled,
-    // force a new request so the error state
-    // can be demonstrated immediately.
-    if (value) {
-      context.read<CourseModel>().load();
-      context.read<AssignmentModel>().load();
-    }
   }
 
   void _retryData() {
@@ -187,24 +168,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(height: 12),
 
           _buildStudyOverview(courseModel, assignmentModel),
-
-          const SizedBox(height: 28),
-
-          Text('Developer tools', style: theme.textTheme.titleLarge),
-
-          const SizedBox(height: 12),
-
-          Card(
-            child: SwitchListTile(
-              value: _simulateError,
-              title: const Text('Simulate network failure'),
-              subtitle: const Text(
-                'Makes repository requests return an error.',
-              ),
-              secondary: const Icon(Icons.cloud_off_outlined),
-              onChanged: _setNetworkFailure,
-            ),
-          ),
 
           const SizedBox(height: 28),
 
