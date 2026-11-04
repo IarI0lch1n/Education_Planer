@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../data/auth_api.dart';
+
 import '../data/mock_edu_plan_repository.dart';
 import '../models/assignment_model.dart';
 import '../models/course_model.dart';
@@ -40,9 +42,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
 
-    if (ok == true && context.mounted) {
-      context.go('/login');
+    if (ok != true || !context.mounted) {
+      return;
     }
+
+    await context.read<AuthApi>().logout();
+
+    if (!context.mounted) {
+      return;
+    }
+
+    context.go('/login');
   }
 
   void _setNetworkFailure(bool value) {

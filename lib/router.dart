@@ -15,86 +15,100 @@ final _coursesNavigatorKey = GlobalKey<NavigatorState>();
 final _assignmentsNavigatorKey = GlobalKey<NavigatorState>();
 final _profileNavigatorKey = GlobalKey<NavigatorState>();
 
-final router = GoRouter(
-  initialLocation: '/login',
-  routes: [
-    GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+late final GoRouter router;
 
-    StatefulShellRoute.indexedStack(
-      builder: (context, state, navigationShell) {
-        return AppShell(navigationShell: navigationShell);
-      },
-      branches: [
-        // Schedule
-        StatefulShellBranch(
-          navigatorKey: _scheduleNavigatorKey,
-          routes: [
-            GoRoute(
-              path: '/schedule',
-              builder: (context, state) => const ScheduleScreen(),
-              routes: [
-                GoRoute(
-                  path: 'course/:id',
-                  builder: (context, state) {
-                    final id = int.parse(state.pathParameters['id']!);
+void configureRouter({required bool loggedIn}) {
+  router = GoRouter(
+    initialLocation: loggedIn ? '/schedule' : '/login',
+    routes: [
+      GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
 
-                    return CourseDetailsScreen(id: id);
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return AppShell(navigationShell: navigationShell);
+        },
+        branches: [
+          // Schedule
+          StatefulShellBranch(
+            navigatorKey: _scheduleNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/schedule',
+                builder: (context, state) {
+                  return const ScheduleScreen();
+                },
+                routes: [
+                  GoRoute(
+                    path: 'course/:id',
+                    builder: (context, state) {
+                      final id = int.parse(state.pathParameters['id']!);
 
-        // Courses
-        StatefulShellBranch(
-          navigatorKey: _coursesNavigatorKey,
-          routes: [
-            GoRoute(
-              path: '/courses',
-              builder: (context, state) => const CoursesScreen(),
-              routes: [
-                GoRoute(
-                  path: ':id',
-                  builder: (context, state) {
-                    final id = int.parse(state.pathParameters['id']!);
+                      return CourseDetailsScreen(id: id);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
 
-                    return CourseDetailsScreen(id: id);
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
+          // Courses
+          StatefulShellBranch(
+            navigatorKey: _coursesNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/courses',
+                builder: (context, state) {
+                  return const CoursesScreen();
+                },
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    builder: (context, state) {
+                      final id = int.parse(state.pathParameters['id']!);
 
-        // Assignments
-        StatefulShellBranch(
-          navigatorKey: _assignmentsNavigatorKey,
-          routes: [
-            GoRoute(
-              path: '/assignments',
-              builder: (context, state) => const AssignmentsScreen(),
-              routes: [
-                GoRoute(
-                  path: 'new',
-                  builder: (context, state) => const AssignmentFormScreen(),
-                ),
-              ],
-            ),
-          ],
-        ),
+                      return CourseDetailsScreen(id: id);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
 
-        // Profile
-        StatefulShellBranch(
-          navigatorKey: _profileNavigatorKey,
-          routes: [
-            GoRoute(
-              path: '/profile',
-              builder: (context, state) => const ProfileScreen(),
-            ),
-          ],
-        ),
-      ],
-    ),
-  ],
-);
+          // Assignments
+          StatefulShellBranch(
+            navigatorKey: _assignmentsNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/assignments',
+                builder: (context, state) {
+                  return const AssignmentsScreen();
+                },
+                routes: [
+                  GoRoute(
+                    path: 'new',
+                    builder: (context, state) {
+                      return const AssignmentFormScreen();
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          // Profile
+          StatefulShellBranch(
+            navigatorKey: _profileNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/profile',
+                builder: (context, state) {
+                  return const ProfileScreen();
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    ],
+  );
+}
