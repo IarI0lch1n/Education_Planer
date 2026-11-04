@@ -5,16 +5,29 @@ import '../data/result.dart';
 import '../domain/assignment.dart';
 
 class AssignmentModel extends ChangeNotifier {
-  final AssignmentRepository _repository;
-
   AssignmentModel(this._repository);
 
+  final AssignmentRepository _repository;
+
+  static const int _pageSize = 20;
+
   bool _isLoading = false;
+  bool _isLoadingMore = false;
+  bool _hasMore = false;
+
   String? _error;
+  String _search = '';
+
+  int _page = 1;
+
   List<Assignment> _assignments = const [];
 
   bool get isLoading => _isLoading;
+  bool get isLoadingMore => _isLoadingMore;
+  bool get hasMore => _hasMore;
+
   String? get error => _error;
+  String get search => _search;
 
   List<Assignment> get assignments => List.unmodifiable(_assignments);
 
@@ -40,23 +53,74 @@ class AssignmentModel extends ChangeNotifier {
     );
   }
 
-  Future<void> load() async {
+  Future<void> load({String? search}) async {
+    if (search != null) {
+      _search = search.trim();
+    }
+
+    _page = 1;
     _isLoading = true;
+    _isLoadingMore = false;
     _error = null;
+
     notifyListeners();
 
-    final result = await _repository.fetchAssignments();
+    final result = await _repository.fetchAssignments(
+      page: _page,
+      limit: _pageSize,
+      search: _search.isEmpty ? null : _search,
+    );
 
     switch (result) {
       case Ok<List<Assignment>>(value: final value):
         _assignments = value;
+
+        _hasMore = value.length == _pageSize;
+
         _error = null;
+
+      case Err<List<Assignment>>(message: final message):
+        _hasMore = false;
+        _error = message;
+    }
+
+    _isLoading = false;
+
+    notifyListeners();
+  }
+
+  Future<void> loadMore() async {
+    if (_isLoading || _isLoadingMore || !_hasMore) {
+      return;
+    }
+
+    _isLoadingMore = true;
+    _error = null;
+
+    notifyListeners();
+
+    final nextPage = _page + 1;
+
+    final result = await _repository.fetchAssignments(
+      page: nextPage,
+      limit: _pageSize,
+      search: _search.isEmpty ? null : _search,
+    );
+
+    switch (result) {
+      case Ok<List<Assignment>>(value: final value):
+        _assignments = [..._assignments, ...value];
+
+        _page = nextPage;
+
+        _hasMore = value.length == _pageSize;
 
       case Err<List<Assignment>>(message: final message):
         _error = message;
     }
 
-    _isLoading = false;
+    _isLoadingMore = false;
+
     notifyListeners();
   }
 
@@ -64,10 +128,11 @@ class AssignmentModel extends ChangeNotifier {
     final result = await _repository.createAssignment(draft);
 
     switch (result) {
-      case Ok<Assignment>(value: final created):
-        _assignments = [..._assignments, created];
+      case Ok<Assignment>():
+        // Reload page 1 from the server so that
+        // sorting/search/pagination stay consistent.
+        await load();
 
-        notifyListeners();
         return null;
 
       case Err<Assignment>(message: final message):
@@ -84,7 +149,9 @@ class AssignmentModel extends ChangeNotifier {
 
         if (index != -1) {
           final items = [..._assignments];
+
           items[index] = updated;
+
           _assignments = items;
 
           notifyListeners();
@@ -107,6 +174,7 @@ class AssignmentModel extends ChangeNotifier {
             .toList();
 
         notifyListeners();
+
         return null;
 
       case Err<void>(message: final message):

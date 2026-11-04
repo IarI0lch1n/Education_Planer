@@ -37,10 +37,23 @@ class HttpAssignmentRepository implements AssignmentRepository {
   }
 
   @override
-  Future<Result<List<Assignment>>> fetchAssignments() async {
+  Future<Result<List<Assignment>>> fetchAssignments({
+    int page = 1,
+    int limit = 20,
+    String? search,
+  }) async {
     try {
+      final uri = Uri.parse('$baseUrl/assignments').replace(
+        queryParameters: {
+          'page': '$page',
+          'limit': '$limit',
+          if (search != null && search.trim().isNotEmpty)
+            'search': search.trim(),
+        },
+      );
+
       final response = await http
-          .get(Uri.parse('$baseUrl/assignments'), headers: await _headers())
+          .get(uri, headers: await _headers())
           .timeout(_timeout);
 
       if (response.statusCode == 401) {

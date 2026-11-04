@@ -37,10 +37,23 @@ class HttpCourseRepository implements CourseRepository {
   }
 
   @override
-  Future<Result<List<Course>>> fetchCourses() async {
+  Future<Result<List<Course>>> fetchCourses({
+    int page = 1,
+    int limit = 20,
+    String? search,
+  }) async {
     try {
+      final uri = Uri.parse('$baseUrl/courses').replace(
+        queryParameters: {
+          'page': '$page',
+          'limit': '$limit',
+          if (search != null && search.trim().isNotEmpty)
+            'search': search.trim(),
+        },
+      );
+
       final response = await http
-          .get(Uri.parse('$baseUrl/courses'), headers: await _headers())
+          .get(uri, headers: await _headers())
           .timeout(_timeout);
 
       if (response.statusCode == 401) {

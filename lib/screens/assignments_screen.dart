@@ -129,6 +129,19 @@ class AssignmentsScreen extends StatelessWidget {
 
         const SizedBox(height: 20),
 
+        TextField(
+          textInputAction: TextInputAction.search,
+          decoration: const InputDecoration(
+            hintText: 'Search assignments',
+            prefixIcon: Icon(Icons.search),
+          ),
+          onSubmitted: (value) {
+            context.read<AssignmentModel>().load(search: value);
+          },
+        ),
+
+        const SizedBox(height: 20),
+
         Text('Status', style: theme.textTheme.titleSmall),
 
         const SizedBox(height: 8),
@@ -139,63 +152,52 @@ class AssignmentsScreen extends StatelessWidget {
             children: [
               FilterChip(
                 label: const Text('All'),
-                selected: true,
-                onSelected: (_) {},
+                selected: assignmentModel.search.isEmpty,
+                onSelected: (_) {
+                  context.read<AssignmentModel>().load(search: '');
+                },
               ),
+
               const SizedBox(width: 8),
+
               FilterChip(
                 label: const Text('New'),
-                selected: false,
-                onSelected: (_) {},
+                selected: assignmentModel.search == 'New',
+                onSelected: (_) {
+                  context.read<AssignmentModel>().load(search: 'New');
+                },
               ),
+
               const SizedBox(width: 8),
+
               FilterChip(
                 label: const Text('In progress'),
-                selected: false,
-                onSelected: (_) {},
+                selected: assignmentModel.search == 'In progress',
+                onSelected: (_) {
+                  context.read<AssignmentModel>().load(search: 'In progress');
+                },
               ),
+
               const SizedBox(width: 8),
+
               FilterChip(
                 label: const Text('Completed'),
-                selected: false,
-                onSelected: (_) {},
-              ),
-            ],
-          ),
-        ),
-
-        const SizedBox(height: 18),
-
-        Text('Deadline', style: theme.textTheme.titleSmall),
-
-        const SizedBox(height: 8),
-
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              FilterChip(
-                label: const Text('All dates'),
-                selected: true,
-                onSelected: (_) {},
-              ),
-              const SizedBox(width: 8),
-              FilterChip(
-                label: const Text('This week'),
-                selected: false,
-                onSelected: (_) {},
-              ),
-              const SizedBox(width: 8),
-              FilterChip(
-                label: const Text('Later'),
-                selected: false,
-                onSelected: (_) {},
+                selected: assignmentModel.search == 'Completed',
+                onSelected: (_) {
+                  context.read<AssignmentModel>().load(search: 'Completed');
+                },
               ),
             ],
           ),
         ),
 
         const SizedBox(height: 24),
+
+        if (assignmentModel.assignments.isEmpty)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 32),
+            child: Center(child: Text('No assignments found.')),
+          ),
 
         ...assignmentModel.assignments.map((assignment) {
           final course = courseModel.byId(assignment.courseId);
@@ -211,6 +213,25 @@ class AssignmentsScreen extends StatelessWidget {
             ),
           );
         }),
+
+        if (assignmentModel.isLoadingMore)
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Center(child: CircularProgressIndicator()),
+          )
+        else if (assignmentModel.hasMore)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: OutlinedButton.icon(
+              onPressed: () {
+                context.read<AssignmentModel>().loadMore();
+              },
+              icon: const Icon(Icons.expand_more),
+              label: const Text('Load more'),
+            ),
+          ),
+
+        const SizedBox(height: 80),
       ],
     );
   }
