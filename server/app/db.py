@@ -1,14 +1,15 @@
 # SQLite setup. The database file is created automatically on first start.
 #
-# To add your own entity: add a CREATE TABLE below, then copy the pattern
-# of app/notes.py for its routes.
+# EduPlan adds two entities:
+# - courses
+# - assignments
+#
+# Both belong to the authenticated user.
 
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
-# The project folder (the one holding requirements.txt), regardless of the
-# current working directory — so app.db always lands in the same place.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 _SCHEMA = """
@@ -28,6 +29,28 @@ CREATE TABLE IF NOT EXISTS notes (
   created_at TEXT    NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS courses (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id    INTEGER NOT NULL REFERENCES users (id),
+  name       TEXT    NOT NULL,
+  teacher    TEXT    NOT NULL,
+  room       TEXT    NOT NULL,
+  weekday    TEXT    NOT NULL,
+  start_time TEXT    NOT NULL,
+  created_at TEXT    NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS assignments (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id    INTEGER NOT NULL REFERENCES users (id),
+  course_id  INTEGER NOT NULL REFERENCES courses (id) ON DELETE CASCADE,
+  title      TEXT    NOT NULL,
+  deadline   TEXT    NOT NULL,
+  status     TEXT    NOT NULL,
+  priority   TEXT    NOT NULL,
+  created_at TEXT    NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS files (
   id         INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id    INTEGER NOT NULL REFERENCES users (id),
@@ -39,20 +62,23 @@ CREATE TABLE IF NOT EXISTS files (
 );
 """
 
-# The single database connection, opened (and the schema applied) at import
-# time. All route handlers are `async def`, so they all run on the event
-# loop's single thread — one shared connection is safe here.
-# isolation_level=None = autocommit: every INSERT/UPDATE/DELETE is written
-# to disk immediately, which is what gives persistence across restarts.
 conn = sqlite3.connect(
-    BASE_DIR / "app.db", check_same_thread=False, isolation_level=None
+    BASE_DIR / "app.db",
+    check_same_thread=False,
+    isolation_level=None,
 )
-conn.row_factory = sqlite3.Row  # rows behave like dicts: row["title"]
+
+conn.row_factory = sqlite3.Row
+
+# Enable SQLite foreign keys so deleting a course can also remove
+# its assignments through ON DELETE CASCADE.
+conn.execute("PRAGMA foreign_keys = ON")
+
 conn.executescript(_SCHEMA)
 
 
 def now_iso():
-    """Current UTC time in ISO-8601, the format used for all timestamps."""
+    """Current UTC time in ISO-8601 format."""
     return (
         datetime.now(timezone.utc)
         .isoformat(timespec="milliseconds")
